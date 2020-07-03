@@ -15,26 +15,25 @@ int main() {
     // starting assumption
     left[0] = 1;
     for(int i=1;i<n;i++){
-        int lmax = INT_MIN;
+        int lmax = 1;
         for(int j=0;j<i;j++){
             if(ar[j] < ar[i]){
-                lmax = max(lmax,left[j]);
+                lmax = max(lmax,left[j]+1);
             }
         }
-        left[i] = lmax+1;
+        left[i] = lmax;
     }
 
     // ending assumption
     right[n-1] = 1;
     for(int i=n-2;i>=0;i--){
-        int lmax = INT_MIN;
-        for(int j=n-1;j>i;j--){
+        int lmax = 1;
+        for(int j=i+1;j<n;j++){
             if(ar[j] < ar[i]){
-                lmax = max(lmax,right[j]);
+                lmax = max(lmax,right[j]+1);
             }
         }
-        if(lmax != INT_MIN) right[i] = lmax+1;
-        else right[i] = 1;
+        right[i] = lmax;
     }
 
     int maxv = 0;
