@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+  
+ int n;
+ cin >> n;
+    
+    int *ar = new int[n];
+    for(int i=0;i<n;i++) cin >> ar[i];
+
+    int *left = new int[n];
+    int *right = new int[n];
+
+    // starting assumption
+    left[0] = 1;
+    for(int i=1;i<n;i++){
+        int lmax = INT_MIN;
+        for(int j=0;j<i;j++){
+            if(ar[j] < ar[i]){
+                lmax = max(lmax,left[j]);
+            }
+        }
+        left[i] = lmax+1;
+    }
+
+    // ending assumption
+    right[n-1] = 1;
+    for(int i=n-2;i>=0;i--){
+        int lmax = INT_MIN;
+        for(int j=n-1;j>i;j--){
+            if(ar[j] < ar[i]){
+                lmax = max(lmax,right[j]);
+            }
+        }
+        if(lmax != INT_MIN) right[i] = lmax+1;
+        else right[i] = 1;
+    }
+
+    int maxv = 0;
+    for(int i=0;i<n;i++){
+        maxv = max(maxv ,left[i] + right[i] - 1);
+    }
+    cout << maxv << endl;
+
+ return 0;
+}
