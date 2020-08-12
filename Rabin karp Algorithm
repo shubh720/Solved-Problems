@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+ string s,t;
+ cin >> s >> t;
+
+    int n = s.length();
+    int k = t.length();
+
+    int hash_pattern = 0;
+    for(int i=0;i<k;i++) hash_pattern += int(t[i]);
+
+    int string_start = 0;
+    for(int i=0;i<k;i++) string_start += int(s[i]);
+
+    int cnt = 0,f = 1;
+    // check for case 1
+    if(hash_pattern == string_start){
+        for(int i=0;i<k;i++){
+            if(s[i] != t[i]){
+                f = 0;
+                break;
+            }
+        }
+      if(f) cnt++;
+    }
+
+
+    for(int i=1;i<n-1;i++){
+        string_start = string_start - int(s[i-1]) + int(s[i+k-1]);
+        f = 1;
+
+        if(hash_pattern == string_start){
+            for(int j=0;j<k;j++){
+                if(s[i+j] != t[j]){
+                    f = 0;
+                    break;
+                }
+            }
+            if(f) cnt++;
+        }
+    }
+
+  cout << cnt << " ";
+
+  return 0;
+}
