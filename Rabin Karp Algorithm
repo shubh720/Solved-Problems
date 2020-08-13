@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define prime 3
+
+int main(){
+ 
+ string s,t;
+ cin >> s >> t;
+    
+    int n = s.length();
+    int k = t.length();
+
+    int x = 0;  // x is be used in calc power
+    ll hash_value = 0;
+    for(int i=0;i<k;i++) hash_value += int(t[i])*pow(prime,x++);
+
+    ll curr_value = 0; 
+    x = 0;
+    for(int i=0;i<k;i++) curr_value += int(s[i])*pow(prime,x++);
+
+    bool f = 0;
+    if(hash_value == curr_value){
+        f = 1;
+    }
+
+    for(int i=1;i<n;i++){
+        curr_value -= int(s[i-1]);
+        curr_value /= prime;
+        curr_value += int(s[i+k-1])*pow(prime,k-1);
+
+        if(hash_value == curr_value) f = 1;
+    }
+  
+  if(f) cout << "FOUND!" << endl;
+  else cout << "NOT FOUND!" << endl;
+
+ return 0;   
+}
