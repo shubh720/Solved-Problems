@@ -1,0 +1,111 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class node{
+  public :   
+    
+    char ch;
+    unordered_map<char,node*> children;
+    bool terminal;
+    int count;
+
+    node(char ch){
+        this -> ch = ch;
+        terminal = false;
+        count = 0;
+    }
+};
+
+class Trie{
+   node* root; 
+    
+    public : 
+    
+    Trie(){
+        root = new node('\0');
+    } 
+
+    void insert(char *w){
+        node* temp = root; // start always
+
+        for(int i=0;w[i]!=NULL;i++){
+            char ch = w[i];
+            
+            // either inserted before or first time means prev word might have provided ch
+            if(temp->children[ch] == NULL){
+                node* temp_hold = new node(ch);
+                temp->children[ch] = temp_hold;
+                temp->count += 1;
+                temp = temp_hold;
+            }
+            else{
+                temp = temp->children[ch];
+            }
+        }
+        // terminate word with flag to indicate a word existence
+        temp->count += 1;
+        temp->terminal = true;
+    }
+
+    void find_all_prefix(char w[][1000],int n){
+        for(int i=0;i<n;i++){
+            //char word[1000] = w[i];
+            node* temp = root;
+            int f = 0;
+            vector<char> v;
+
+            for(int j=0;w[i][j]!=NULL;j++){
+                char ch = w[i][j];
+                temp = temp->children[ch];
+               // cout << temp -> count << " ";
+                if(temp->count == 1){
+                    v.push_back(temp->ch);
+                    f = 1;
+                    break;
+                }
+                else{
+                    v.push_back(temp->ch);
+                    //temp = temp->children[ch];
+                }
+            }
+            if(f){
+                for(auto x:v) cout << x;
+                cout << endl;
+            }
+            else{
+                cout << "-1" << endl;
+            } 
+           v.clear();  
+        }
+    }
+
+    bool find(char *w){
+        node* temp = root;
+        for(int i=0;w[i]!='\0';i++){
+            char ch = w[i];
+            if(temp->children.count(ch) == 0){
+                return false;
+            }else{
+                temp = temp->children[ch];
+            }
+        }
+       if(temp->terminal == true) return true; 
+       else return false; 
+    }
+};
+
+int main(){
+ 
+ Trie t;
+ char ch[][1000] = {"cobra","dog","dove","duck","car"};
+
+ int n = 5; 
+    for(int i=0;i<n;i++){
+        t.insert(ch[i]);
+    }
+
+    t.find_all_prefix(ch,n);   
+
+    
+  return 0;  
+}
