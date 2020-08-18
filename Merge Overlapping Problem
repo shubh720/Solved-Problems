@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool compare(int *a,int *b){
+    return a < b;
+}
+
+int main(){
+    
+ int n;
+ cin >> n;
+ 
+ vector<vector<int> > time(n,vector<int>(2));
+ 
+    for(int i=0;i<n;i++){
+        for(int j=0;j<2;j++)
+            cin >> time[i][j];
+    }
+
+    
+    
+    sort(time.begin(),time.end());
+
+    stack<int> s;
+    
+    for(int i=0;i<n;i++){
+        int st = time[i][0];
+        int e = time[i][1];
+        
+        //cout << s.size() << " ";
+        if(s.size() > 0 && st <= s.top()){
+            
+            if(e > s.top()){
+                s.pop();
+                s.push(e);
+            }
+            
+        }
+        else{
+            s.push(st);
+            s.push(e);
+        }
+    }
+    
+    //cout << endl;
+    //cout << s.size() << endl;
+    
+    vector<int> ans;
+    while(!s.empty()){
+        ans.push_back(s.top());
+        s.pop();
+    }
+    
+    reverse(ans.begin(),ans.end());
+    
+    for(int i=0;i<ans.size();i+=2){
+        cout << ans[i] << " " << ans[i+1] << endl;
+    }
+    
+  return 0;    
+}
